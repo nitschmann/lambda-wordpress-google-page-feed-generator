@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-wordpress-google-page-feed-generator
+
+  Generate Google page feed CSV file out of WordPress XML feeds once per day at midnight and upload the result to S3
+
+Globals:
+  Function:
+    Timeout: 120
+
+Resources:
+  GooglePageFeedGenerator:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./
+      Handler: google_page_feed_generator.handler
+      Runtime: python3.7
+      Environment:
+        Variables:
+          FILE_NAME: ""
+          S3_UPLOAD_AWS_ACCESS_KEY_ID: ""
+          S3_UPLOAD_AWS_SECRET_ACCESS_KEY: ""
+          S3_UPLOAD_BUCKET: ""
+          WORDPRESS_FEED_URL: ""
+      Events:
+        RegenerateFeedEvent:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 0 1/1 * ? *)

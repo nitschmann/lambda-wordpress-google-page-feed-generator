@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function read_env_var() {
+  VAR=$(grep $1 $2 | xargs)
+  IFS="=" read -ra VAR <<< "$VAR"
+  echo ${VAR[1]}
+}
+
+sam build && sam package \
+  --output-template-file package.yaml \
+  --s3-bucket $(read_env_var PACKAGE_S3_BUCKET .env)
+
+sam deploy \
+  --template-file package.yaml \
+  --stack-name $(read_env_var STACK_NAME .env) \
+  --capabilities CAPABILITY_IAM

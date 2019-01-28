@@ -1,0 +1,9 @@
+{
+  "GooglePageFeedGenerator": {
+    "FILE_NAME": "page_urls.csv",
+    "S3_UPLOAD_AWS_ACCESS_KEY_ID": "",
+    "S3_UPLOAD_AWS_SECRET_ACCESS_KEY": "",
+    "S3_UPLOAD_BUCKET": "",
+    "WORDPRESS_FEED_URL": ""
+  }
+}
